@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Her Space</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #faf8f5;
+    --warm-white: #f5f2ed;
+    --blush: #e8d5cc;
+    --rose: #c4907a;
+    --deep-rose: #a06b58;
+    --text: #2c2420;
+    --muted: #8a7570;
+    --border: #e2d9d3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 60px;
+    background: rgba(250,248,245,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; letter-spacing: 3px;
+    color: var(--text);
+  }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+  .admin-btn {
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 8px 20px; border: 1px solid var(--rose);
+    color: var(--rose); background: transparent; cursor: pointer;
+    transition: all 0.3s; font-family: 'Jost', sans-serif;
+  }
+  .admin-btn:hover { background: var(--rose); color: white; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding: 120px 40px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,144,122,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,213,204,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 24px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300; line-height: 1.1;
+    color: var(--text); margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero-title em { font-style: italic; color: var(--rose); }
+  .hero-sub {
+    font-size: 15px; font-weight: 300; color: var(--muted);
+    max-width: 420px; line-height: 1.8; letter-spacing: 0.5px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-line {
+    width: 1px; height: 80px; background: var(--border);
+    margin: 48px auto 0;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 60px; }
+  .section-label {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px); font-weight: 300;
+    line-height: 1.2; margin-bottom: 24px;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-image-placeholder {
+    width: 100%; padding-top: 130%;
+    background: linear-gradient(135deg, var(--blush), var(--warm-white));
+    position: relative; overflow: hidden;
+  }
+  .about-image-placeholder::after {
+    content: '✦';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 48px; color: rgba(196,144,122,0.3);
+  }
+  .about-accent {
+    position: absolute; bottom: -20px; right: -20px;
+    width: 120px; height: 120px;
+    border: 1px solid var(--border);
+  }
+  .about-text p {
+    font-size: 15px; font-weight: 300; color: var(--muted);
+    line-height: 2; margin-bottom: 16px;
+  }
+  .about-stats {
+    display: flex; gap: 40px; margin-top: 40px;
+    padding-top: 40px; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300; color: var(--rose);
+    display: block;
+  }
+  .stat-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--warm-white); }
+  .gallery-header {
+    max-width: 1100px; margin: 0 auto 60px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .gallery-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .gallery-item {
+    position: relative; overflow: hidden;
+    background: var(--blush); cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+  .gallery-item:hover { transform: scale(1.02); }
+  .gallery-item:nth-child(2) { grid-row: span 2; }
+  .gallery-img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block; min-height: 220px;
+  }
+  .gallery-placeholder {
+    width: 100%; min-height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--blush) 0%, #dcc9c0 100%);
+    color: var(--rose); font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic; text-align: center; padding: 20px;
+  }
+  .gallery-item:nth-child(2) .gallery-placeholder { min-height: 456px; }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: rgba(44,36,32,0); transition: background 0.4s;
+    display: flex; align-items: flex-end; padding: 20px;
+  }
+  .gallery-item:hover .gallery-overlay { background: rgba(44,36,32,0.45); }
+  .gallery-caption {
+    color: white; font-size: 13px; font-weight: 300; letter-spacing: 1px;
+    opacity: 0; transform: translateY(8px); transition: all 0.4s;
+  }
+  .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+  /* ── QUOTES ── */
+  .quotes { text-align: center; max-width: 700px; margin: 0 auto; }
+  blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3vw, 38px); font-weight: 300; font-style: italic;
+    line-height: 1.5; color: var(--text);
+    position: relative; padding: 0 40px;
+  }
+  blockquote::before {
+    content: '"'; font-size: 120px; color: var(--blush);
+    position: absolute; top: -40px; left: 0;
+    font-family: 'Cormorant Garamond', serif; line-height: 1;
+  }
+  .quote-author {
+    margin-top: 28px; font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--rose);
+  }
+
+  /* ── LOVE NOTE ── */
+  .love-note {
+    background: var(--text); color: white;
+    text-align: center; padding: 120px 60px;
+  }
+  .love-note .section-label { color: var(--blush); }
+  .love-note .section-title { color: white; }
+  .love-note p {
+    font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.6);
+    max-width: 500px; margin: 0 auto; line-height: 2;
+  }
+  .love-note em { color: var(--blush); font-style: italic; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 300; letter-spacing: 3px; color: var(--muted);
+  }
+  .footer-text { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+
+  /* ── ADMIN PANEL OVERLAY ── */
+  .overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(44,36,32,0.5); backdrop-filter: blur(6px);
+    justify-content: center; align-items: center;
+  }
+  .overlay.open { display: flex; }
+  .panel {
+    background: var(--cream); width: 92%; max-width: 780px;
+    max-height: 90vh; overflow-y: auto;
+    border: 1px solid var(--border);
+    animation: slideIn 0.4s ease;
+  }
+  .panel-header {
+    padding: 32px 40px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .panel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300;
+  }
+  .close-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 22px; color: var(--muted); transition: color 0.3s;
+  }
+  .close-btn:hover { color: var(--rose); }
+  .panel-body { padding: 40px; }
+  .panel-section { margin-bottom: 40px; }
+  .panel-section-title {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 20px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  label {
+    display: block; font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  input[type="text"], textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1px solid var(--border); background: white;
+    font-family: 'Jost', sans-serif; font-size: 14px; color: var(--text);
+    outline: none; transition: border 0.3s; margin-bottom: 16px;
+    resize: vertical;
+  }
+  input[type="text"]:focus, textarea:focus { border-color: var(--rose); }
+
+  /* Gallery management */
+  .gallery-manage-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-bottom: 20px;
+  }
+  .gallery-manage-item {
+    position: relative; background: var(--warm-white);
+    border: 1px solid var(--border); padding: 10px;
+    text-align: center;
+  }
+  .gallery-manage-thumb {
+    width: 100%; height: 80px; object-fit: cover;
+    background: var(--blush); display: block; margin-bottom: 8px;
+  }
+  .gallery-manage-thumb-placeholder {
+    width: 100%; height: 80px;
+    background: linear-gradient(135deg, var(--blush), #dcc9c0);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--rose); font-size: 20px; margin-bottom: 8px;
+  }
+  .gallery-manage-caption {
+    font-size: 11px; color: var(--muted); margin-bottom: 8px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .remove-btn {
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    color: #c0392b; background: none; border: 1px solid #e8c8c5;
+    padding: 4px 10px; cursor: pointer; transition: all 0.3s;
+    font-family: 'Jost', sans-serif;
+  }
+  .remove-btn:hover { background: #c0392b; color: white; }
+
+  .add-gallery-form {
+    border: 1px dashed var(--border); padding: 20px; background: white;
+    margin-bottom: 12px;
+  }
+  .add-gallery-form input { margin-bottom: 10px; }
+
+  /* AI Section */
+  .ai-area {
+    border: 1px solid var(--border); background: white; padding: 24px;
+  }
+  .ai-input-row {
+    display: flex; gap: 12px; margin-bottom: 12px;
+  }
+  .ai-input-row input { margin: 0; flex: 1; }
+  .ai-send-btn {
+    padding: 12px 24px; background: var(--rose); color: white;
+    border: none; cursor: pointer; font-family: 'Jost', sans-serif;
+    font-size: 13px; letter-spacing: 1px; white-space: nowrap;
+    transition: background 0.3s;
+  }
+  .ai-send-btn:hover { background: var(--deep-rose); }
+  .ai-response {
+    background: var(--warm-white); border: 1px solid var(--border);
+    padding: 16px; font-size: 14px; color: var(--text); line-height: 1.8;
+    min-height: 80px; font-family: 'Jost', sans-serif;
+    white-space: pre-wrap;
+  }
+  .ai-loading { color: var(--rose); font-style: italic; }
+
+  .save-btn {
+    padding: 14px 36px; background: var(--text); color: white;
+    border: none; cursor: pointer; font-family: 'Jost', sans-serif;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    transition: background 0.3s; width: 100%; margin-top: 8px;
+  }
+  .save-btn:hover { background: var(--rose); }
+
+  .toast {
+    position: fixed; bottom: 30px; right: 30px; z-index: 999;
+    background: var(--text); color: white;
+    padding: 14px 24px; font-size: 13px; letter-spacing: 1px;
+    opacity: 0; transform: translateY(10px);
+    transition: all 0.4s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── LOGIN GATE ── */
+  .login-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(44,36,32,0.6); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center;
+  }
+  .login-overlay.open { display: flex; }
+  .login-box {
+    background: var(--cream); width: 92%; max-width: 420px;
+    border: 1px solid var(--border);
+    animation: slideIn 0.4s ease;
+    padding: 48px 40px; text-align: center;
+  }
+  .login-box .login-icon {
+    font-size: 32px; margin-bottom: 20px; display: block;
+  }
+  .login-box h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; margin-bottom: 8px;
+  }
+  .login-box p {
+    font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.7;
+  }
+  .login-box input {
+    width: 100%; padding: 13px 16px;
+    border: 1px solid var(--border); background: white;
+    font-family: 'Jost', sans-serif; font-size: 14px; color: var(--text);
+    outline: none; transition: border 0.3s; margin-bottom: 12px;
+    text-align: center; letter-spacing: 0.5px;
+  }
+  .login-box input:focus { border-color: var(--rose); }
+  .login-submit {
+    width: 100%; padding: 14px;
+    background: var(--text); color: white; border: none;
+    font-family: 'Jost', sans-serif; font-size: 12px;
+    letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.3s; margin-bottom: 12px;
+  }
+  .login-submit:hover { background: var(--rose); }
+  .login-cancel {
+    background: none; border: none; cursor: pointer;
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+    font-family: 'Jost', sans-serif; text-decoration: underline;
+  }
+  .login-error {
+    font-size: 12px; color: #c0392b; margin-bottom: 12px;
+    display: none; letter-spacing: 0.5px;
+  }
+  .login-error.show { display: block; }
+  .login-attempts {
+    font-size: 11px; color: var(--muted); margin-top: 10px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:nth-child(2) { grid-row: auto; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .panel-body { padding: 24px; }
+    .gallery-manage-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" id="site-name">HER SPACE</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#note">Note</a>
+  </div>
+  <button class="admin-btn" onclick="openAdminBtn()">✦ Manage</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">A space made for her</div>
+  <h1 class="hero-title" id="hero-title">
+    Beautiful,<br/><em id="hero-name">Graceful</em> &amp; <br/>Beloved.
+  </h1>
+  <p class="hero-sub" id="hero-sub">
+    A quiet corner of the internet, crafted with love — celebrating every moment, memory, and smile.
+  </p>
+  <div class="hero-line"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about">
+    <div class="about-image-wrap">
+      <div class="about-image-placeholder" id="about-img-placeholder">
+        <img id="about-img" src="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;" alt=""/>
+      </div>
+      <div class="about-accent"></div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">About Her</div>
+      <h2 class="section-title" id="about-title">A soul as<br/><em style="font-family:'Cormorant Garamond',serif;font-style:italic;">warm as sunlight.</em></h2>
+      <p id="about-p1">She carries a rare kind of grace — the sort that makes every room feel a little more alive. Her laughter is contagious, her heart is generous, and her spirit is unmatched.</p>
+      <p id="about-p2">This space exists to celebrate her, in every season of life, through every photograph and memory worth keeping.</p>
+      <div class="about-stats">
+        <div><span class="stat-num" id="stat1-num">∞</span><span class="stat-label" id="stat1-lbl">Reasons to Smile</span></div>
+        <div><span class="stat-num" id="stat2-num">✦</span><span class="stat-label" id="stat2-lbl">Moments Cherished</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div>
+      <div class="section-label">Memories</div>
+      <h2 class="section-title">The Gallery</h2>
+    </div>
+  </div>
+  <div class="gallery-grid" id="gallery-grid">
+    <!-- populated by JS -->
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section style="background:var(--cream); padding: 100px 60px;">
+  <div class="quotes">
+    <blockquote id="quote-text">You are my favourite thought, my most beautiful feeling, and my greatest adventure.</blockquote>
+    <div class="quote-author" id="quote-author">— With Love</div>
+  </div>
+</section>
+
+<!-- LOVE NOTE -->
+<section class="love-note" id="note">
+  <div class="section-label">A Note</div>
+  <h2 class="section-title" id="note-title">You are everything.</h2>
+  <p id="note-body">
+    Every photograph here holds a piece of a story — <em>our story</em>. Thank you for being exactly who you are. This little corner of the internet will always be yours.
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo" id="footer-name">HER SPACE</div>
+  <div class="footer-text">Made with love ✦ <span id="footer-year"></span></div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Changes saved successfully ✦</div>
+
+<!-- ===== LOGIN GATE ===== -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-box">
+    <span class="login-icon">🔐</span>
+    <h2>Admin Access</h2>
+    <p>This area is protected.<br/>Enter your email to continue.</p>
+    <div class="login-error" id="login-error">Access denied. Unauthorized email.</div>
+    <input type="email" id="login-email" placeholder="Enter your email address" autocomplete="email" />
+    <button class="login-submit" onclick="checkLogin()">Verify & Enter ✦</button>
+    <br/>
+    <button class="login-cancel" onclick="closeLogin()">Cancel</button>
+    <div class="login-attempts" id="login-attempts"></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div class="overlay" id="overlay">
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">✦ Monthly Manager</div>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button onclick="logOut()" style="background:none;border:1px solid var(--border);padding:6px 14px;font-size:11px;letter-spacing:1px;color:var(--muted);cursor:pointer;font-family:'Jost',sans-serif;">Log Out</button>
+        <button class="close-btn" onclick="closePanel()">✕</button>
+      </div>
+    </div>
+    <div class="panel-body">
+
+      <!-- AI ASSISTANT -->
+      <div class="panel-section">
+        <div class="panel-section-title">AI Caption &amp; Text Generator</div>
+        <div class="ai-area">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Ask AI to write captions, love notes, quotes, or any text for your website.</p>
+          <div class="ai-input-row">
+            <input type="text" id="ai-prompt" placeholder="e.g. Write a caption for a beach photo of her..." />
+            <button class="ai-send-btn" onclick="askAI()">✦ Generate</button>
+          </div>
+          <div class="ai-response" id="ai-response">AI response will appear here...</div>
+          <button style="margin-top:10px;padding:8px 16px;background:none;border:1px solid var(--border);cursor:pointer;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1px;color:var(--muted);" onclick="copyAI()">Copy Text</button>
+        </div>
+      </div>
+
+      <!-- SITE IDENTITY -->
+      <div class="panel-section">
+        <div class="panel-section-title">Site Identity</div>
+        <label>Site Name (shown in nav)</label>
+        <input type="text" id="e-site-name" placeholder="HER SPACE" />
+        <label>Her Name / Hero Highlight Word</label>
+        <input type="text" id="e-hero-name" placeholder="e.g. Graceful, Radiant, Yours..." />
+        <label>Hero Subtitle</label>
+        <input type="text" id="e-hero-sub" placeholder="A quiet corner of the internet..." />
+      </div>
+
+      <!-- ABOUT SECTION -->
+      <div class="panel-section">
+        <div class="panel-section-title">About Section</div>
+        <label>About Paragraph 1</label>
+        <textarea id="e-about-p1" rows="3"></textarea>
+        <label>About Paragraph 2</label>
+        <textarea id="e-about-p2" rows="3"></textarea>
+        <label>Stat 1 (number/symbol)</label>
+        <input type="text" id="e-stat1-num" placeholder="∞" />
+        <label>Stat 1 Label</label>
+        <input type="text" id="e-stat1-lbl" placeholder="Reasons to Smile" />
+        <label>Stat 2 (number/symbol)</label>
+        <input type="text" id="e-stat2-num" placeholder="✦" />
+        <label>Stat 2 Label</label>
+        <input type="text" id="e-stat2-lbl" placeholder="Moments Cherished" />
+      </div>
+
+      <!-- GALLERY MANAGER -->
+      <div class="panel-section">
+        <div class="panel-section-title">Gallery Manager</div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">Add image URLs and captions. Update monthly with new memories.</p>
+        <div class="gallery-manage-grid" id="gallery-manage-grid"></div>
+        <div class="add-gallery-form">
+          <label>Image URL</label>
+          <input type="text" id="new-img-url" placeholder="https://your-image-link.jpg" />
+          <label>Caption</label>
+          <input type="text" id="new-img-caption" placeholder="A beautiful day..." />
+          <button class="ai-send-btn" style="width:100%;" onclick="addGalleryItem()">+ Add to Gallery</button>
+        </div>
+      </div>
+
+      <!-- QUOTE -->
+      <div class="panel-section">
+        <div class="panel-section-title">Featured Quote</div>
+        <label>Quote Text</label>
+        <textarea id="e-quote" rows="3"></textarea>
+        <label>Quote Author</label>
+        <input type="text" id="e-quote-author" placeholder="— With Love" />
+      </div>
+
+      <!-- LOVE NOTE -->
+      <div class="panel-section">
+        <div class="panel-section-title">Love Note Section</div>
+        <label>Note Title</label>
+        <input type="text" id="e-note-title" placeholder="You are everything." />
+        <label>Note Body</label>
+        <textarea id="e-note-body" rows="4"></textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveAll()">Save All Changes ✦</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── DEFAULT DATA ──
+  const defaultGallery = [
+    { url: '', caption: 'A moment in time' },
+    { url: '', caption: 'She lights up every room' },
+    { url: '', caption: 'Golden hour' },
+    { url: '', caption: 'Always smiling' },
+    { url: '', caption: 'A quiet afternoon' },
+  ];
+
+  let galleryItems = JSON.parse(localStorage.getItem('gf_gallery') || 'null') || defaultGallery;
+  let siteData = JSON.parse(localStorage.getItem('gf_data') || 'null') || {};
+
+  // ── INIT ──
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  function applyData() {
+    const d = siteData;
+    if (d['site-name'])    { document.getElementById('site-name').textContent = d['site-name']; document.getElementById('footer-name').textContent = d['site-name']; }
+    if (d['hero-name'])    document.getElementById('hero-name').textContent = d['hero-name'];
+    if (d['hero-sub'])     document.getElementById('hero-sub').textContent = d['hero-sub'];
+    if (d['about-p1'])     document.getElementById('about-p1').textContent = d['about-p1'];
+    if (d['about-p2'])     document.getElementById('about-p2').textContent = d['about-p2'];
+    if (d['stat1-num'])    document.getElementById('stat1-num').textContent = d['stat1-num'];
+    if (d['stat1-lbl'])    document.getElementById('stat1-lbl').textContent = d['stat1-lbl'];
+    if (d['stat2-num'])    document.getElementById('stat2-num').textContent = d['stat2-num'];
+    if (d['stat2-lbl'])    document.getElementById('stat2-lbl').textContent = d['stat2-lbl'];
+    if (d['quote'])        document.getElementById('quote-text').textContent = d['quote'];
+    if (d['quote-author']) document.getElementById('quote-author').textContent = d['quote-author'];
+    if (d['note-title'])   document.getElementById('note-title').textContent = d['note-title'];
+    if (d['note-body'])    document.getElementById('note-body').textContent = d['note-body'];
+  }
+
+  function renderGallery() {
+    const grid = document.getElementById('gallery-grid');
+    grid.innerHTML = '';
+    galleryItems.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'gallery-item';
+      div.innerHTML = item.url
+        ? `<img class="gallery-img" src="${item.url}" alt="${item.caption}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="gallery-placeholder" style="display:none">${item.caption}</div>`
+        : `<div class="gallery-placeholder">${item.caption}</div>`;
+      div.innerHTML += `<div class="gallery-overlay"><div class="gallery-caption">${item.caption}</div></div>`;
+      grid.appendChild(div);
+    });
+  }
+
+  function renderManageGrid() {
+    const grid = document.getElementById('gallery-manage-grid');
+    grid.innerHTML = '';
+    galleryItems.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'gallery-manage-item';
+      div.innerHTML = `
+        ${item.url ? `<img class="gallery-manage-thumb" src="${item.url}" onerror="this.style.display='none'"/>` : `<div class="gallery-manage-thumb-placeholder">✦</div>`}
+        <div class="gallery-manage-caption">${item.caption}</div>
+        <button class="remove-btn" onclick="removeGallery(${i})">Remove</button>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function removeGallery(i) {
+    galleryItems.splice(i, 1);
+    renderManageGrid();
+    renderGallery();
+  }
+
+  function addGalleryItem() {
+    const url = document.getElementById('new-img-url').value.trim();
+    const caption = document.getElementById('new-img-caption').value.trim() || 'A beautiful memory';
+    if (!url && !caption) return;
+    galleryItems.push({ url, caption });
+    document.getElementById('new-img-url').value = '';
+    document.getElementById('new-img-caption').value = '';
+    renderManageGrid();
+    renderGallery();
+    showToast('Photo added to gallery ✦');
+  }
+
+  // ── AUTH ──
+  const ALLOWED_EMAIL = 'maqmahreeen@gmail.com';
+  let loginAttempts = 0;
+  let lockoutUntil = 0;
+
+  function openAdminBtn() {
+    const now = Date.now();
+    if (now < lockoutUntil) {
+      const secs = Math.ceil((lockoutUntil - now) / 1000);
+      showToast(`Too many attempts. Try again in ${secs}s.`);
+      return;
+    }
+    // Check if already authenticated this session
+    if (sessionStorage.getItem('gf_auth') === ALLOWED_EMAIL) {
+      openPanel();
+    } else {
+      document.getElementById('login-overlay').classList.add('open');
+      document.getElementById('login-email').value = '';
+      document.getElementById('login-error').classList.remove('show');
+      document.getElementById('login-attempts').textContent = '';
+      setTimeout(() => document.getElementById('login-email').focus(), 100);
+    }
+  }
+
+  function checkLogin() {
+    const now = Date.now();
+    if (now < lockoutUntil) return;
+
+    const entered = document.getElementById('login-email').value.trim().toLowerCase();
+    if (entered === ALLOWED_EMAIL) {
+      sessionStorage.setItem('gf_auth', ALLOWED_EMAIL);
+      loginAttempts = 0;
+      closeLogin();
+      openPanel();
+    } else {
+      loginAttempts++;
+      document.getElementById('login-error').classList.add('show');
+      if (loginAttempts >= 3) {
+        lockoutUntil = Date.now() + 30000;
+        document.getElementById('login-attempts').textContent = 'Locked for 30 seconds.';
+        closeLogin();
+        showToast('Too many failed attempts. Locked for 30s.');
+      } else {
+        document.getElementById('login-attempts').textContent =
+          `${3 - loginAttempts} attempt(s) remaining.`;
+      }
+    }
+  }
+
+  function closeLogin() {
+    document.getElementById('login-overlay').classList.remove('open');
+  }
+
+  document.getElementById('login-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkLogin();
+  });
+
+  // ── PANEL ──
+  function openPanel() {
+    document.getElementById('overlay').classList.add('open');
+    // fill fields
+    const d = siteData;
+    document.getElementById('e-site-name').value   = d['site-name']    || '';
+    document.getElementById('e-hero-name').value   = d['hero-name']    || '';
+    document.getElementById('e-hero-sub').value    = d['hero-sub']     || '';
+    document.getElementById('e-about-p1').value    = d['about-p1']     || document.getElementById('about-p1').textContent;
+    document.getElementById('e-about-p2').value    = d['about-p2']     || document.getElementById('about-p2').textContent;
+    document.getElementById('e-stat1-num').value   = d['stat1-num']    || '';
+    document.getElementById('e-stat1-lbl').value   = d['stat1-lbl']    || '';
+    document.getElementById('e-stat2-num').value   = d['stat2-num']    || '';
+    document.getElementById('e-stat2-lbl').value   = d['stat2-lbl']    || '';
+    document.getElementById('e-quote').value       = d['quote']        || document.getElementById('quote-text').textContent;
+    document.getElementById('e-quote-author').value= d['quote-author'] || '';
+    document.getElementById('e-note-title').value  = d['note-title']   || '';
+    document.getElementById('e-note-body').value   = d['note-body']    || document.getElementById('note-body').textContent;
+    renderManageGrid();
+  }
+
+  function closePanel() {
+    document.getElementById('overlay').classList.remove('open');
+  }
+
+  function logOut() {
+    sessionStorage.removeItem('gf_auth');
+    closePanel();
+    showToast('Logged out successfully ✦');
+  }
+
+  document.getElementById('overlay').addEventListener('click', function(e) {
+    if (e.target === this) closePanel();
+  });
+
+  function saveAll() {
+    siteData = {
+      'site-name':    document.getElementById('e-site-name').value,
+      'hero-name':    document.getElementById('e-hero-name').value,
+      'hero-sub':     document.getElementById('e-hero-sub').value,
+      'about-p1':     document.getElementById('e-about-p1').value,
+      'about-p2':     document.getElementById('e-about-p2').value,
+      'stat1-num':    document.getElementById('e-stat1-num').value,
+      'stat1-lbl':    document.getElementById('e-stat1-lbl').value,
+      'stat2-num':    document.getElementById('e-stat2-num').value,
+      'stat2-lbl':    document.getElementById('e-stat2-lbl').value,
+      'quote':        document.getElementById('e-quote').value,
+      'quote-author': document.getElementById('e-quote-author').value,
+      'note-title':   document.getElementById('e-note-title').value,
+      'note-body':    document.getElementById('e-note-body').value,
+    };
+    localStorage.setItem('gf_data', JSON.stringify(siteData));
+    localStorage.setItem('gf_gallery', JSON.stringify(galleryItems));
+    applyData();
+    renderGallery();
+    closePanel();
+    showToast('All changes saved ✦');
+  }
+
+  // ── AI ASSISTANT ──
+  async function askAI() {
+    const prompt = document.getElementById('ai-prompt').value.trim();
+    if (!prompt) return;
+    const box = document.getElementById('ai-response');
+    box.innerHTML = '<span class="ai-loading">Generating...</span>';
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: 'You are a romantic, poetic assistant helping someone create beautiful text for their girlfriend\'s personal website. Write in a clean, minimal, elegant style — warm but not cheesy. Keep responses concise and beautiful.',
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await res.json();
+      const text = data.content?.map(b => b.text || '').join('') || 'Could not generate. Please try again.';
+      box.textContent = text;
+    } catch(e) {
+      box.textContent = 'Error connecting to AI. Please try again.';
+    }
+  }
+
+  document.getElementById('ai-prompt').addEventListener('keydown', e => {
+    if (e.key === 'Enter') askAI();
+  });
+
+  function copyAI() {
+    const text = document.getElementById('ai-response').textContent;
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard ✦'));
+  }
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ── BOOT ──
+  applyData();
+  renderGallery();
+</script>
+</body>
+</html>
